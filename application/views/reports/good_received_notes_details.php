@@ -1,0 +1,63 @@
+<?php
+TCPDF();
+$obj_pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$obj_pdf->SetCreator(PDF_CREATOR);
+$title = "SNK | Inventory Control System";
+$obj_pdf->SetTitle($title);
+$obj_pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+$obj_pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$obj_pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$obj_pdf->SetDefaultMonospacedFont('helvetica');
+$obj_pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$obj_pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+$obj_pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$obj_pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+$obj_pdf->SetFont('helvetica', '', 8);
+$obj_pdf->setFontSubsetting(false);
+$obj_pdf->AddPage();
+ob_start();
+// we can have any view part here like HTML, PHP etc
+$content .= '<h2 align="center">Good Received Notes -Details</h2>';
+$content .= '<table border="0.5" style="padding:3;">';
+$count = 1;
+$content .= '<thead>';
+$content .= '<tr align="center" style="font-weight: bold;">';
+$content .= '<th>#</th>';
+$content .= '<th>GRN Number</th>';
+$content .= '<th>PO Number</th>';
+$content .= '<th>MR Code</th>';
+$content .= '<th>Project Name</th>';
+$content .= '<th>Product Name</th>';
+$content .= '<th>Category Name</th>';
+$content .= '<th>Subcategory 1 Name</th>';
+$content .= '<th>Subcategory 2 Name</th>';
+$content .= '<th>Subcategory 3 Name</th>';
+$content .= '<th>Received Quantity</th>';
+$content .= '<th>Received Date</th>';
+$content .= '</tr>';
+$content .= '</thead>';
+$content .= '<tbody>';
+foreach ($grns as $grn) :
+    $content .= '<tr>';
+    $content .= '<td>' . $count . '</td>';
+    $content .= '<td>' . $grn['goodreceivenote_no'] . '</td>';
+    $content .= '<td>' . $grn['purchaseorder_no'] . '</td>';
+    $content .= '<td>' . $grn['materialrequest_code'] . '</td>';
+    $content .= '<td>' . $grn['project_name'] . '</td>';
+    $content .= '<td>' . $grn['product_name'] . '</td>';
+    $content .= '<td>' . $grn['category_name'] . '</td>';
+    $content .= '<td>' . $grn['subcategory_1_name'] . '</td>';
+    $content .= '<td>' . $grn['subcategory_2_name'] . '</td>';
+    $content .= '<td>' . $grn['subcategory_3_name'] . '</td>';
+    $content .= '<td>' . $grn['received_quantity'] . '</td>';
+    $content .= '<td>' . $grn['goodreceived_date'] . '</td>';
+    $content .= '</tr>';
+    $count++;
+endforeach;
+$content .= '</tbody>';
+$content .= '</table>';
+
+ob_end_clean();
+$obj_pdf->writeHTML($content, true, false, true, false, '');
+$obj_pdf->Output('GoodReceivedNotes.pdf', 'I');
+?>
