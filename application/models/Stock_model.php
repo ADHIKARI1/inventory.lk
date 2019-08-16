@@ -90,7 +90,7 @@
 
 
 
-    public function save_adjusted_items($tableid) {
+    /*public function save_adjusted_items($tableid) {
 
       date_default_timezone_set('Asia/Colombo');
 
@@ -134,7 +134,54 @@
 
       return true;
 
+    }*/
+
+    public function save_adjusted_items($tableid, $qty) {
+
+      date_default_timezone_set('Asia/Colombo');
+
+      $this->db->where('stocks_table_id', $tableid);
+
+      $query = $this->db->get('stocks');
+
+      $existedqty = $query->row_array();
+
+
+
+      $data = array(
+
+        'product_code' => $existedqty['product_code'],
+
+        'existed_quantity' => $existedqty['quantity'],
+
+        'changed_quantity' => $qty,
+
+        'location_id' => $existedqty['location_id'],
+
+        'saved_date' => date('Y-m-d'),
+
+        'saved_user' => $this->session->userdata('user_id')
+
+      );
+
+      $this->db->insert('adjusted_stocks', $data);
+
+
+
+      $data = array(
+
+        'quantity' => $qty
+
+      );
+
+      $this->db->where('stocks_table_id', $tableid);
+
+      $this->db->update('stocks', $data);
+
+      return true;
+
     }
+
 
 
 

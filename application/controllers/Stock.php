@@ -41,7 +41,7 @@ class Stock extends CI_Controller
 
 
     public function transferitems($locationid = NULL)
-    {
+    { 
 
         if ($this->session->userdata('logged_in')) {
 
@@ -160,7 +160,7 @@ class Stock extends CI_Controller
     }
 
 
-    public function saveadjustetdquantity($tableid)
+    /*public function saveadjustetdquantity($tableid)
     {
 
         if ($this->session->userdata('logged_in')) {
@@ -201,6 +201,33 @@ class Stock extends CI_Controller
 
         }
 
+    }*/
+
+    public function saveadjustetdquantity($id, $qty)
+    {
+
+        if ($this->session->userdata('logged_in')) {
+
+            $permission = $this->Userpermissions_model->get_usermodulepermissions($this->session->userdata('user_id'), 20);
+
+            if ($permission) 
+            {                
+               $success = $this->Stock_model->save_adjusted_items($id, $qty);
+               if ($success)                    
+                     echo json_encode(array('type' => 'success', 'message' => 'Product quantity change has been successed!!!'));
+                 else
+                    echo json_encode(array('type' => 'error', 'message' => 'Product quantity change has been failed!!!'));
+            } 
+            else
+                 echo json_encode(array('type' => 'error', 'message' => 'You don"t have permission to this module!!!'));
+
+
+        }
+        else
+        {
+            $this->session->set_flashdata('not_logged', "Please login before access this module!!!");
+            redirect('userlogin');
+        }
     }
 
 }

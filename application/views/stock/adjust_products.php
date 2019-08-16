@@ -29,21 +29,18 @@
                         <td><?php echo $product['subcategory_3_name']; ?></td>
                         <td><?php echo $product['product_name']; ?></td>
                         <td><?php echo $product['quantity_type']; ?><?php echo $product['quantity']; ?></td>
-                        <td>
-                            <?php $attribute = array('onsubmit' => "return confirm('Are you sure, you want to adjust this product quantity?')") ?>
-                            <?php echo form_open('Stock/saveadjustetdquantity/' . $product['stocks_table_id'], $attribute); ?>
+                        <td>                            
                             <div class="form-group">
-                                <input type="number" name="Quantity" step="0.01" value="0.00" class="form-control"
-                                       min="0">
+                                <input type="number" name="<?php echo $count; ?>Quantity" step="0.01" value="0.00" class="form-control"
+                                       min="0">                                
                             </div>
                             <div class="form-group">
                                 <div class="bs-component">
-                                    <input type="submit" id="btnSubmit" class="form-control btn btn-primary"
+                                    <input type="submit"  id="<?php echo $product['stocks_table_id']; ?>" data-count = "<?php echo $count; ?>"  class="form-control btn btn-primary btn-stock-adjust"
                                            value="Adjust" data-toggle="tooltip" data-placement="bottom" title=""
                                            data-original-title="Click to adjust this product quantity">
                                 </div>
-                            </div>
-                            <?php echo form_close(); ?>
+                            </div>                           
                         </td>
                     </tr>
                     <?php $count++; ?>
