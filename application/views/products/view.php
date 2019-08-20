@@ -25,6 +25,9 @@
                 <strong>Sub Category 3 Name : </strong><?php echo $product['subcategory_3_name']; ?>
             </div>
             <div class="list-group-item list-group-item-action">
+                <strong>Location : </strong><?php echo $stock['location']; ?>
+            </div>
+            <div class="list-group-item list-group-item-action">
                 <strong>Product Location : </strong><?php echo $product['productlocation']; ?>
             </div>
             <div class="list-group-item list-group-item-action">

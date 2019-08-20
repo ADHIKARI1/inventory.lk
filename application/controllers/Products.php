@@ -83,6 +83,7 @@ class Products extends CI_Controller
                 $data['subcategories2'] = $this->Subcategory2_model->get_subcategories_by_name();
                 $data['subcategories3'] = $this->Subcategory3_model->get_subcategories_by_name();
                 $data['productlocations'] = $this->Productlocations_model->get_productlocations_by_name();
+                $data['locations'] = $this->Locations_model->get_locations();
 
                 $this->load->view('template/header');
                 $this->load->view('products/create', $data);
@@ -122,7 +123,8 @@ class Products extends CI_Controller
 
     public function edit($productid = NULL)
     {
-        if ($this->session->userdata('logged_in')) {
+        if ($this->session->userdata('logged_in')) 
+        {
             $permission = $this->Userpermissions_model->get_usermodulepermissions($this->session->userdata('user_id'), 3);
             if ($permission) {
                 $data['categories'] = $this->Categories_model->get_categories_by_name();
@@ -130,6 +132,7 @@ class Products extends CI_Controller
                 $data['subcategories2'] = $this->Subcategory2_model->get_subcategories_by_name();
                 $data['subcategories3'] = $this->Subcategory3_model->get_subcategories_by_name();
                 $data['productlocations'] = $this->Productlocations_model->get_productlocations_by_name();
+                $data['locations'] = $this->Locations_model->get_locations();
                 $data['product'] = $this->Products_model->get_products($productid);
                 $data['stock'] = $this->Stocks_model->get_stock_by_product_id($productid);
 
@@ -140,7 +143,9 @@ class Products extends CI_Controller
                 $this->session->set_flashdata('access_denied', "You don't have permission to this module!!!");
                 redirect(base_url());
             }
-        } else {
+        } 
+        else
+        {
             $this->session->set_flashdata('not_logged', "Please login before access this module!!!");
             redirect('userlogin');
         }

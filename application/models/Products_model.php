@@ -72,7 +72,7 @@
                     'product_code' => $maxid,
                     'quantity' => $this->input->post('Quantity'),
                     'quantity_type' => $this->input->post('QuantityType'),
-                    'location_id' => $this->input->post('ProductLocation')
+                    'location_id' => $this->input->post('Location')
                   );
                 $this->db->insert('stocks', $data);
                 return true;
@@ -111,7 +111,7 @@
                 $this->db->update('products', $data);
 
                 $this->db->where('product_code =', $this->input->post('ProductCode'));
-                $this->db->where('location_id =', $this->input->post('ProductLocation'));
+                $this->db->where('location_id =', $this->input->post('Location'));
                 $stockquery = $this->db->get('stocks');
 
                 if ($stockquery->num_rows() == 1) 
@@ -121,7 +121,7 @@
                   'quantity_type' => $this->input->post('QuantityType')
                   );
                   $this->db->where('product_code =', $this->input->post('ProductCode'));
-                  $this->db->where('location_id =', $this->input->post('ProductLocation'));
+                  $this->db->where('location_id =', $this->input->post('Location'));
                   $this->db->update('stocks', $data);
                 }
                 else
@@ -133,7 +133,7 @@
                   'product_code' => $this->input->post('ProductCode'),
                   'quantity' => $this->input->post('Quantity'),
                   'quantity_type' => $this->input->post('QuantityType'),
-                  'location_id' => $this->input->post('ProductLocation')
+                  'location_id' => $this->input->post('Location')
                   );                
                   $this->db->insert('stocks', $data);
                 }               

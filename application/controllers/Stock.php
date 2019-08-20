@@ -219,9 +219,10 @@ class Stock extends CI_Controller
                     echo json_encode(array('type' => 'error', 'message' => 'Product quantity change has been failed!!!'));
             } 
             else
-                 echo json_encode(array('type' => 'error', 'message' => 'You don"t have permission to this module!!!'));
-
-
+            {
+                $this->session->set_flashdata('access_denied', "You don't have permission to this module!!!");
+                redirect(base_url());
+            }
         }
         else
         {

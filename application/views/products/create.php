@@ -68,8 +68,18 @@
                           </div>
                     </div>
                     <div class="form-group">
+                        <label>Select Location</label>
+                        <select class="form-control" name="Location">
+                            <option value="">---- SELECT ----</option>
+                            <?php foreach ($locations as $location) : ?>
+                                <option value="<?php echo $location['locations_table_id']; ?>"><?php echo $location['location']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Select Product Location</label>
                         <select class="form-control" name="ProductLocation">
+                            <option value="">---- SELECT ----</option>
                             <?php foreach ($productlocations as $productlocation) : ?>
                                 <option value="<?php echo $productlocation['productlocations_table_id']; ?>"><?php echo $productlocation['productlocation']; ?></option>
                             <?php endforeach; ?>
