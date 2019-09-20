@@ -7,10 +7,10 @@ class Stock extends CI_Controller
     {
 
         if ($this->session->userdata('logged_in')) {
-
             $permission = $this->Userpermissions_model->get_usermodulepermissions($this->session->userdata('user_id'), 13);
 
-            if ($permission) {
+            if ($permission) 
+            {
 
                 $data['locations'] = $this->Locations_model->get_locations_by_name();
 
@@ -21,7 +21,9 @@ class Stock extends CI_Controller
 
                 $this->load->view('template/footer');
 
-            } else {
+            } 
+            else 
+            {
 
                 $this->session->set_flashdata('access_denied', "You don't have permission to this module!!!");
 
@@ -30,13 +32,9 @@ class Stock extends CI_Controller
             }
 
         } else {
-
             $this->session->set_flashdata('not_logged', "Please login before access this module!!!");
-
             redirect('userlogin');
-
         }
-
     }
 
 

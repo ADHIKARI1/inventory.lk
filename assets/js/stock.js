@@ -11,7 +11,8 @@ var LoadDataTables = function () {
 var AdjustStock = function (){
 	return {
 		init: function(){
-            $(".btn-stock-adjust").on("click", function(){
+            $(document).on("click", ".btn-stock-adjust", function(){
+                console.log("console");
                 var id = $(this).attr("id");
                 var count = $(this).attr("data-count");
                 var qty = $("input[name="+count+"Quantity]").val();               

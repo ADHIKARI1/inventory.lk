@@ -16,8 +16,7 @@
                         <label>Product Name</label>
                         <input type="text" class="form-control" name="ProductName" placeholder="Product Name"
                                value="<?php echo $product['product_name']; ?>" required>
-                    </div>
-                     
+                    </div>                     
                     <div class="form-group">
                         <label>Select Category</label>
                         <select class="form-control filterSelect" name="CategoryCode" data-target='select-sub1'
