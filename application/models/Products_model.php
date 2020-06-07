@@ -34,7 +34,8 @@
       return $query->result_array();
     }
 
-    public function save_product(){
+    public function save_product()
+    {
 
       try {
 
@@ -95,8 +96,14 @@
             $this->db->where('product_code !=', $this->input->post('ProductCode'));
             $query = $this->db->get('products');
             $existname = $query->row_array();
-            if($existname == NULL)
+
+            //var_dump($existname);
+            //die("out");
+
+            if($existname == NULL || empty($existname))
             {
+
+               //die("Die True ".$existname);
                 $data = array(
                   'product_name' => $this->input->post('ProductName'),
                   'category_code' => $this->input->post('CategoryCode'),
@@ -104,8 +111,9 @@
                   'subcategory_2_code' => $this->input->post('SubCategory2Code'),
                   'subcategory_3_code' => $this->input->post('SubCategory3Code'),
                   'product_location_id' => $this->input->post('ProductLocation'),
-                  'product_description' =>$this->input->post('ProductDescription')
+                  'product_description' => $this->input->post('ProductDescription')
                 );
+
 
                 $this->db->where('product_code =', $this->input->post('ProductCode'));
                 $this->db->update('products', $data);
@@ -139,12 +147,16 @@
                 }               
                 return true;
             }
-            else{
+            else
+            {
+                //die("Die false ".$existname);
                 return false;
             }
         
-      } catch (Exception $e) {
-            die($e);
+      } 
+      catch (Exception $e) 
+      {
+            //die($e);
             return false;
       }
 

@@ -142,6 +142,18 @@
       return true;
     }
 
+    public function delete_bulk_supplierproducts($table_ids = array())
+    {
+        if(is_array($table_ids))
+        {
+          foreach($table_ids as $id){
+             $this->db->delete('supplierproducts', array('supplierproducts_table_id' => $id));
+          }
+          return true;
+        }        
+        return false;
+    }
+
     public function get_supplier_by_po($po = NULL)
     {
         $query = $this->db->query("CALL supplier_by_po_no('$po')");

@@ -18,7 +18,8 @@
                     <th scope="col">Sub Category 1 Name</th>
                     <th scope="col">Sub Category 2 Name</th>
                     <th scope="col">Sub Category 3 Name</th>
-                    <th scope="col"></th>
+                    <!-- <th scope="col"></th> -->
+                    <th scope="col"><input type="checkbox" id="checkall" value='1'>&nbsp;<input type='submit' id="deleteSupplierItem" class='btn btn-danger float-right' data-toggle='tooltip' data-placement='bottom' title='' data-original-title='Click to delete this products from this supplier' value='DELETE'></th>
                 </tr>
                 </thead>
             </table>

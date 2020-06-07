@@ -58,13 +58,18 @@ var LoadSupplierProducts = function () {
                         {"data": "subcategory_1_name"},
                         {"data": "subcategory_2_name"},
                         {"data": "subcategory_3_name"},
-                        {
+                        /*{
                             "render": function (data, type, full) {
                                 return "<div class='bs-component'>" +
                                     "<form method='POST'  action=" + BASE_URL + "suppliers/deleteproduct/" + full['supplierproducts_table_id'] + ">" +
                                     "<input type='submit' class='btn btn-danger' data-toggle='tooltip' data-placement='bottom' title='' data-original-title='Click to delete this product from this supplier' value='X'>" +
                                     "</form>" +
                                     "</div>";
+                            }
+                        },*/
+                        {
+                            "render": function(data, typ, full){
+                                return "<input type='checkbox' class='checkbox' name='delete' value='"+full['supplierproducts_table_id']+"' >";
                             }
                         }
                     ]
@@ -74,9 +79,115 @@ var LoadSupplierProducts = function () {
     }
 }();
 
-jQuery(document).ready(function () {
+var DeleteSupplierItems = function(){
+    return{
+        init: function(){            
 
+        // Check all
+        $("#checkall").change(function(){
+
+           var checked = $(this).is(':checked');
+           if(this.checked){
+              $(".checkbox").each(function(){
+                  $(this).prop("checked",true);
+              });
+           }else{
+              $(".checkbox").each(function(){
+                  $(this).prop("checked",false);
+              });
+           }
+        });
+
+        // Changing state of CheckAll checkbox 
+            $('#SupplierProductsDataTable').on('click','.checkbox',function(){
+                if($('.checkbox:checked').length == $('.checkbox').length){
+                    $('#checkall').prop('checked',true);
+                }else{
+                    $('#checkall').prop('checked',false);
+                }
+            }); 
+
+            /*
+            $("#user").on("click", ".checkbox", function() {
+                $("#select-all").prop('checked', true)
+                $("#user").find(".checkbox").each(function() {
+                if (!$(this).prop('checked')){
+                $("#select-all").prop('checked', false);
+                return;
+                }
+                })
+            })*/      
+
+            function delete_confirm(){
+                if($('.checkbox:checked').length > 0){
+                    var result = confirm("Are you sure to delete this record's ?");
+                    if(result){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    alert('Select at least 1 record to delete.');
+                    return false;
+                }
+            }
+
+            // Delete button clicked
+            $('#deleteSupplierItem').click(function(){
+                // Confirm alert          
+            if (delete_confirm()) {
+
+            // Get userid from checked checkboxes
+              var item_arr = [];
+              $(".checkbox:checked").each(function(){
+                  var id = $(this).val();
+
+                  item_arr.push(id);
+                  //console.log(id);
+              });
+
+              // Array length
+              var length = item_arr.length;
+              if (length > 0) {
+                 // AJAX request
+                 $.ajax({
+                    url:  BASE_URL +'Suppliers/deletebulkproducts',
+                    type: 'post',
+                    data: {table_ids: item_arr},
+                    success: function(response){
+                        ReloadSupplierProducts.init();   
+                        
+                       // Remove <tr>
+                       /*$(".checkbox:checked").each(function(){
+                        
+                           var userid = $(this).val();
+
+                           $('#tr_'+userid).remove();
+                       });*/
+                    }
+                 });
+              };
+
+           }
+            });            
+        }
+    }
+
+}();
+
+var ReloadSupplierProducts = function () {
+    return {
+        init: function () {
+            var supplierCode = $('#supplier-products-supplier-code').val();
+            $('#SupplierProductsDataTable').DataTable().ajax.url(BASE_URL + 'suppliers/products/data/' + supplierCode).load(null, false);
+
+        }
+    }
+}();
+
+jQuery(document).ready(function () {
     LoadSuppliers.init();
     LoadSupplierProducts.init();
+    DeleteSupplierItems.init();
 
 });

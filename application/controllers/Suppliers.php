@@ -298,6 +298,44 @@ class Suppliers extends CI_Controller
             redirect('userlogin');
         }
     }
+
+    public function deletebulkproducts()
+    {        
+
+        if ($this->session->userdata('logged_in')) 
+        {
+            $permission = $this->Userpermissions_model->get_usermodulepermissions($this->session->userdata('user_id'), 16);
+            if ($permission) 
+            {
+                if($this->input->post('table_ids'))
+                {
+                  // POST values
+                  $table_ids = $this->input->post('table_ids');
+                  // Delete records
+                  $this->Suppliers_model->delete_bulk_supplierproducts($table_ids);                  
+                  exit;
+                  /*$id = $this->input->post('checkbox_value');
+                   for($count = 0; $count < count($id); $count++)
+                   {
+                    $this->Suppliers_model->delete($id[$count]);
+                   }*/
+                }
+            }
+            else 
+            {
+                $this->session->set_flashdata('access_denied', "You don't have permission to this module!!!");
+                redirect(base_url());
+            }       
+        } 
+        else 
+        {
+                $this->session->set_flashdata('not_logged', "Please login before access this module!!!");
+                redirect('userlogin');
+        }     
+   }
+
+
+
 }
 
 ?>
